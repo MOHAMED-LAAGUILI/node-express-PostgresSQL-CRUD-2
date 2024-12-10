@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add User</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-blue-50 to-blue-100 font-sans">
+    <main class="container mx-auto p-6">
+
+        <!-- Add User Form -->
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg glass-effect border border-gray-200 mb-8">
+            <h2 class="text-3xl font-semibold text-center mb-8 text-gray-900">Add New User</h2>
+            <form action="/submit-user" method="POST" class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label for="name" class="text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="w-full p-4 border border-gray-300 rounded-lg" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="email" class="text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="w-full p-4 border border-gray-300 rounded-lg" placeholder="Enter your email" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="designation" class="text-sm font-medium text-gray-700">Designation</label>
+                        <input type="text" id="designation" name="designation" class="w-full p-4 border border-gray-300 rounded-lg" placeholder="Enter your designation" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="phone_number" class="text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" id="phone_number" name="phone_number" class="w-full p-4 border border-gray-300 rounded-lg" placeholder="Enter your phone number">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="date_of_birth" class="text-sm font-medium text-gray-700">Date of Birth</label>
+                        <input type="datetime" id="date_of_birth" name="date_of_birth" class="w-full p-4 border border-gray-300 rounded-lg">
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <label for="address" class="text-sm font-medium text-gray-700">Address</label>
+                    <textarea id="address" name="address" class="w-full p-4 border border-gray-300 rounded-lg" rows="4" placeholder="Enter your address"></textarea>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <input type="checkbox" id="is_active" name="is_active" class="h-5 w-5 text-blue-600" checked>
+                    <label for="is_active" class="text-sm font-medium text-gray-700">Active User</label>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-xl hover:bg-blue-700">Add User</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- User Data Table Section -->
+        <div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+            <h2 class="text-2xl font-semibold text-center mb-6 text-gray-900">Users List</h2>
+
+            <!-- Search Box and Column Filter -->
+            <div class="mb-4 flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <input type="text" id="search" class="p-2 w-64 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search all fields..." oninput="searchUsers()">
+                </div>
+                <div class="flex space-x-4">
+                    <label class="text-sm font-medium text-gray-700">Search in:</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="search-name" class="h-5 w-5" checked>
+                        <label for="search-name" class="text-sm font-medium text-gray-700">Name</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="search-email" class="h-5 w-5" checked>
+                        <label for="search-email" class="text-sm font-medium text-gray-700">Email</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="search-designation" class="h-5 w-5" checked>
+                        <label for="search-designation" class="text-sm font-medium text-gray-700">Designation</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="search-phone" class="h-5 w-5" checked>
+                        <label for="search-phone" class="text-sm font-medium text-gray-700">Phone</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="search-address" class="h-5 w-5" checked>
+                        <label for="search-address" class="text-sm font-medium text-gray-700">Address</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="search-active" class="h-5 w-5" checked>
+                        <label for="search-active" class="text-sm font-medium text-gray-700">Active</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table for User List -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">Email</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">Designation</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">Phone</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">date_of_birth</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">Address</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">Active</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list">
+                        <!-- Loop through the users array and display the data dynamically -->
+                        <% if (users && users.length) { %>
+                            <% users.forEach(user => { %>
+                                <tr class="border-t">
+                                    <td class="px-6 py-4 text-sm text-gray-800"><%= user.name %></td>
+                                    <td class="px-6 py-4 text-sm text-gray-800"><%= user.email %></td>
+                                    <td class="px-6 py-4 text-sm text-gray-800"><%= user.designation %></td>
+                                    <td class="px-6 py-4 text-sm text-gray-800"><%= user.phone_number %></td>
+                                    <td class="px-6 py-4 text-sm text-gray-800"><%= user.date_of_birth %></td>
+
+                                    <td class="px-6 py-4 text-sm text-gray-800"><%= user.address %></td>
+                                    <td class="px-6 py-4 text-sm text-gray-800">
+                                        <span class="bg-<%= user.is_active ? 'green' : 'red' %>-100 text-<%= user.is_active ? 'green' : 'red' %>-800 py-1 px-3 rounded-full text-xs">
+                                            <%= user.is_active ? 'Active' : 'Inactive' %>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-800">
+                                        <button class="text-blue-600 hover:text-blue-800">
+                                        <a href="/get-user-to-edit/<%= user.id %>">Edit</a>    
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800">
+                                            <a href="/delete-user/<%= user.id %>">Delete</a>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td colspan="7" class="px-6 py-4 text-center text-gray-500">No users found</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function searchUsers() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#user-list tr');
+
+            rows.forEach(row => {
+                let rowVisible = false;
+
+                // Check if each column checkbox is selected
+                const searchName = document.getElementById('search-name').checked;
+                const searchEmail = document.getElementById('search-email').checked;
+                const searchDesignation = document.getElementById('search-designation').checked;
+                const searchPhone = document.getElementById('search-phone').checked;
+                const searchAddress = document.getElementById('search-address').checked;
+                const searchActive = document.getElementById('search-active').checked;
+
+                // Loop through each column and apply search if the checkbox is selected
+                if (searchName && row.cells[0].innerText.toLowerCase().includes(searchInput)) rowVisible = true;
+                if (searchEmail && row.cells[1].innerText.toLowerCase().includes(searchInput)) rowVisible = true;
+                if (searchDesignation && row.cells[2].innerText.toLowerCase().includes(searchInput)) rowVisible = true;
+                if (searchPhone && row.cells[3].innerText.toLowerCase().includes(searchInput)) rowVisible = true;
+                if (searchAddress && row.cells[4].innerText.toLowerCase().includes(searchInput)) rowVisible = true;
+                if (searchActive && row.cells[5].innerText.toLowerCase().includes(searchInput)) rowVisible = true;
+
+                row.style.display = rowVisible ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
