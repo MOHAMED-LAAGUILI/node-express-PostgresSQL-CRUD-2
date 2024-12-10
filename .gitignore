@@ -32,3 +32,5 @@ coverage/
 # Misc
 *.swp
 *.swo
+
+.gitignore
